@@ -29,12 +29,18 @@ public class NewBehaviourScript : MonoBehaviour
 
         CheckForGameOver();
     }
+
+
     private void CheckForGameOver()
     {
-        if (lives_ <= 0) { 
+        if (lives_ <= 0) 
+        {
+            GameEvents.OnGameOverMethod();
             game_over_popup.SetActive(true);
         }
     }
+
+
     private void OnEnable()
     {
         GameEvents.OnWrongNumber += WrongNumber;
