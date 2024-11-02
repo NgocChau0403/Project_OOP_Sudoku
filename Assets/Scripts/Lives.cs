@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Lives : MonoBehaviour
 {
     public List<GameObject> error_images;
     public GameObject game_over_popup;

@@ -1,13 +1,12 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class Clock : MonoBehaviour
 {
-    private int hour_ = 0;
+    private int hour_ = 1;
     private int minute_ = 0;
     private int second_ = 0;
 
@@ -17,10 +16,8 @@ public class Clock : MonoBehaviour
 
     public static Clock instance;
 
-
     private void Awake()
     {
-
         if (instance)       
            Destroy(instance);
         
@@ -38,7 +35,7 @@ public class Clock : MonoBehaviour
 
     void Update()
     {
-        if (stop_clock_ == false)
+        if (GameSettings.Instance.GetPaused() == false && stop_clock_ == false)
         {
             delta_time += Time.deltaTime;
             TimeSpan span = TimeSpan.FromSeconds(delta_time);
@@ -48,7 +45,6 @@ public class Clock : MonoBehaviour
             string seconds = LeadingZero(span.Seconds);
 
             textClock.text = hour + ":" + minute + ":" + seconds;
-
         }
     }
 
@@ -58,7 +54,7 @@ public class Clock : MonoBehaviour
     }
 
     public void OnGameOver()
-    {
+    { 
         stop_clock_ = true;
     }
 

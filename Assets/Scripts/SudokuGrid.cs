@@ -10,8 +10,10 @@ public class SudokuGrid : MonoBehaviour
     public GameObject grid_square;
     public Vector2 start_position = new Vector2(0.0f, 0.0f);
     public float square_scale = 1.0f;
+    public float square_gap = 0.1f;
+    public Color line_highlight_color = Color.red;
 
-    private List<GameObject> grid_square_ = new List<GameObject>();
+    private List<GameObject> grid_squares_ = new List<GameObject>();
     private int selected_grid_data = -1;
     void Start()
     {
@@ -56,6 +58,10 @@ public class SudokuGrid : MonoBehaviour
     {
         var square_rect = grid_square_[0].GetComponent<RectTransform>();
         Vector2 offset = new Vector2();
+        Vector2 sqaure_gap_number = new Vector2(0.0f, 0.0f);
+        bool row_moved = false;
+
+
         offset.x = square_rect.rect.width * square_rect.transform.localScale.x + square_offset;
         offset.y = square_rect.rect.height * square_rect.transform.localScale.y + square_offset;
 
@@ -68,10 +74,26 @@ public class SudokuGrid : MonoBehaviour
             {
                 row_number++;
                 column_number = 0;
+                sqaure_gap_number.x = 0;
+                row_moved = false;
             }
 
-            var pos_x_offset = offset.x * column_number;
-            var pos_y_offset = offset.y * row_number;
+            var pos_x_offset = offset.x * column_number + (sqaure_gap_number.x * square_gap);
+            var pos_y_offset = offset.y * row_number + (sqaure_gap_number.y * square_gap);
+            
+            if(column_number > 0 && column_number % 3 == 0)
+            {
+                sqaure_gap_number.x++;
+                pos_x_offset += square_gap; 
+            }
+            if(row_number > 0 && row_number % 3 == 0 && row_moved == false)
+            {
+                row_moved = true;
+                sqaure_gap_number.y++;
+                pos_y_offset += square_gap;
+            }
+
+
             square.GetComponent<RectTransform>().anchoredPosition = new Vector2(start_position.x + pos_x_offset, start_position.y - pos_y_offset);
             column_number++;
         }
@@ -98,4 +120,43 @@ public class SudokuGrid : MonoBehaviour
             grid_square_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
         }
     }
+
+    private void OnEnable()
+    {
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnSquareSelected -= OnSquareSelected;
+
+    }
+
+    private void SetSquaresColor(int[] data, Color col)
+    {
+        foreach(var index in data)
+        {
+            var comp = grid_squares_[index].GetComponent<GridSquare>();
+            if (comp.IsSelected() == false)
+            {
+                comp.SetSqaureColour(col);
+            }
+        }
+    }
+    public void OnSquareSelected(int sqaure_index)
+    {
+        var horizontal_line = LineIndicator.instance.GetHorizontalLine(sqaure_index);
+        var vertical_line = LineIndicator.instance.GetVerticalLine(sqaure_index);
+        var square = LineIndicator.instance.GetSquare(sqaure_index);
+
+        SetSquaresColor(LineIndicator.instance.GetAllSquaresIndexes(), Color.white);
+        
+        SetSquaresColor(horizontal_line, line_highlight_color);
+        SetSquaresColor(vertical_line, line_highlight_color);
+        SetSquaresColor(square, line_highlight_color);
+
+
+
+    }
+
 }
