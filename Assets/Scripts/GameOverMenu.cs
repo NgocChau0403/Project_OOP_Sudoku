@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOver : MonoBehaviour
+public class GameOverMenu : MonoBehaviour
 {
     public Text textClock;
+
     void Start()
     {
-        textClock.text = Clock.instance.GetCurrentTimeText().text;
-
+        if (Clock.instance != null)
+        {
+            textClock.text = Clock.instance.GetCurrentTimeText();
+        }
     }
-
 }
