@@ -6,12 +6,10 @@ using UnityEngine.UI;
 public class GameOverMenu : MonoBehaviour
 {
     public Text textClock;
-
     void Start()
     {
-        if (Clock.instance != null)
-        {
-            textClock.text = Clock.instance.GetCurrentTimeText();
-        }
+        textClock.text = Clock.instance.GetCurrentTimeText().text;
+
     }
+
 }

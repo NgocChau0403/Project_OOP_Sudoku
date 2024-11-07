@@ -30,7 +30,7 @@ public class GameSettings : MonoBehaviour
     private EGameMode _GameMode;
     private bool _Paused = false;
 
-    public void SetPaused() { _Paused = true; }
+    public void SetPaused(bool paused) { _Paused = paused; }
 
     public bool GetPaused() { return _Paused; }
 
@@ -54,7 +54,7 @@ public class GameSettings : MonoBehaviour
         else SetGameMode(EGameMode.NOT_SET);
     }
 
-    public void GetGameMode(string mode)
+    public void GetGameMode()
     {
         switch (_GameMode)
         {
