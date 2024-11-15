@@ -3132,11 +3132,11 @@ MonoBehaviour:
   columns: 9
   rows: 9
   square_offset: 2.5
-  grid_square: {fileID: 5444550164038711682}
+  grid_square: {fileID: 6030298010082466618, guid: 695855c21f2e24241a8d49a49c3c42a1, type: 3}
   start_position: {x: -435, y: 442}
   square_scale: 0.9
   square_gap: 5
-  line_highlight_color: {r: 1, g: 0, b: 0, a: 1}
+  line_highlight_color: {r: 0.8, g: 0.8862745, b: 0.9372549, a: 1}
 --- !u!1 &1758133634
 GameObject:
   m_ObjectHideFlags: 0
@@ -4152,11 +4152,6 @@ PrefabInstance:
 --- !u!224 &5444550164038711681 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 875211745439880719, guid: e93c7a5378d234d4196df69787ab72fa, type: 3}
-  m_PrefabInstance: {fileID: 5444550164038711680}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5444550164038711682 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8917729638621069631, guid: e93c7a5378d234d4196df69787ab72fa, type: 3}
   m_PrefabInstance: {fileID: 5444550164038711680}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
