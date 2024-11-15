@@ -112,6 +112,13 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
             selected_ = false;
         }
     }
+
+    public void SetSqaureColour(Color col)
+    {
+        var colors = this.colors;
+        colors.normalColor = col;
+        this.colors - colors;
+    }
 }
 
 
