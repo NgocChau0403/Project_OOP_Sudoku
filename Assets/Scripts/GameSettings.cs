@@ -54,7 +54,7 @@ public class GameSettings : MonoBehaviour
         else SetGameMode(EGameMode.NOT_SET);
     }
 
-    public void GetGameMode()
+    public string GetGameMode()
     {
         switch (_GameMode)
         {

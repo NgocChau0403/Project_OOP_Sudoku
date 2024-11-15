@@ -2810,7 +2810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 29.180054, y: 599.8}
+  m_AnchoredPosition: {x: 29.179993, y: 599.8}
   m_SizeDelta: {x: 600, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559746604
@@ -3082,7 +3082,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1733204542}
   - component: {fileID: 1733204544}
-  - component: {fileID: 1733204543}
+  - component: {fileID: 1733204545}
   m_Layer: 5
   m_Name: Grid
   m_TagString: Untagged
@@ -3109,7 +3109,15 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1733204543
+--- !u!222 &1733204544
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733204541}
+  m_CullTransparentMesh: 1
+--- !u!114 &1733204545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3124,18 +3132,11 @@ MonoBehaviour:
   columns: 9
   rows: 9
   square_offset: 2.5
-  grid_square: {fileID: 6030298010082466618, guid: 695855c21f2e24241a8d49a49c3c42a1, type: 3}
+  grid_square: {fileID: 5444550164038711682}
   start_position: {x: -435, y: 442}
   square_scale: 0.9
   square_gap: 5
---- !u!222 &1733204544
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733204541}
-  m_CullTransparentMesh: 1
+  line_highlight_color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1758133634
 GameObject:
   m_ObjectHideFlags: 0
@@ -4151,6 +4152,11 @@ PrefabInstance:
 --- !u!224 &5444550164038711681 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 875211745439880719, guid: e93c7a5378d234d4196df69787ab72fa, type: 3}
+  m_PrefabInstance: {fileID: 5444550164038711680}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5444550164038711682 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8917729638621069631, guid: e93c7a5378d234d4196df69787ab72fa, type: 3}
   m_PrefabInstance: {fileID: 5444550164038711680}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
