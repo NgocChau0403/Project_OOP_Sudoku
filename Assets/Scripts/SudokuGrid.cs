@@ -118,4 +118,22 @@ public class SudokuGrid : MonoBehaviour
             grid_square_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
         }
     }
+
+    private void OnEnable()
+    {
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnSquareSelected -= OnSquareSelected;
+
+    }
+
+    public void OnSquareSelected(int sqaure_index)
+    {
+        var horizontal_line = LineIndicator.instance.GetHorizontalLine(sqaure_index);
+        var vertical_line = LineIndicator.instance.GetVerticalLine(sqaure_index);
+        var square = LineIndicator.instance.GetSquare(sqaure_index);
+    }
 }
