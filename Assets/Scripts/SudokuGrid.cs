@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SudokuGrid : MonoBehaviour
 {
+
     public int columns = 0;
     public int rows = 0;
     public float square_offset = 0.0f;
@@ -11,8 +12,10 @@ public class SudokuGrid : MonoBehaviour
     public Vector2 start_position = new Vector2(0.0f, 0.0f);
     public float square_scale = 1.0f;
     public float square_gap = 0.1f;
+    public Color line_highlight_color = Color.red;
 
-    private List<GameObject> grid_square_ = new List<GameObject>();
+
+    private List<GameObject> grid_squares_ = new List<GameObject>();
     private int selected_grid_data = -1;
     void Start()
     {
@@ -28,6 +31,7 @@ public class SudokuGrid : MonoBehaviour
     {
         
     }
+
     private void CreateGrid()
     {
         SpawnGridSquares();
@@ -130,10 +134,29 @@ public class SudokuGrid : MonoBehaviour
 
     }
 
+
+    private void SetSquaresColor(int[] data, Color col)
+    {
+        foreach(var index in data)
+        {
+            var comp = grid_squares_[index].GetComponent<GridSquare>();
+            if(comp.IsSelected() == false)
+            {
+                comp.SetSqaureColour(col);
+            }
+        }
+    }
+
     public void OnSquareSelected(int sqaure_index)
     {
         var horizontal_line = LineIndicator.instance.GetHorizontalLine(sqaure_index);
         var vertical_line = LineIndicator.instance.GetVerticalLine(sqaure_index);
         var square = LineIndicator.instance.GetSquare(sqaure_index);
+
+        SetSquaresColor(LineIndicator.instance.GetAllSqauresIdexes(), Color.white);
+
+        SetSquaresColor(horizontal_line, line_highlight_color);
+        SetSquaresColor(vertical_line, line_highlight_color);
+        SetSquaresColor(square, line_highlight_color);
     }
 }
