@@ -139,7 +139,7 @@ public class SudokuGrid : MonoBehaviour
         foreach(var index in data)
         {
             var comp = grid_squares_[index].GetComponent<GridSquare>();
-            if(comp.IsSelected() == false)
+            if(comp.HasWrongValue() == false && comp.IsSelected() == false)
             {
                 comp.SetSqaureColour(col);
             }
