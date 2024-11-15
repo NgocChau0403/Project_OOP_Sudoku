@@ -105,4 +105,35 @@ public class LineIndicator : MonoBehaviour
 
         return line;
     }
+
+    public int[] GetSquare(int square_index)
+    {
+        int[] line = new int[9];
+        int pos_row = -1;
+
+        for(int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                if (square_data[row, col] == square_index)
+                {
+                    pos_row = row;
+
+                }
+            }
+        }
+
+        for (int index = 0; index < 9; index++)
+        {
+            line[index] = square_data[pos_row, index];
+
+        }
+        return line;
+    }
+
+
+    public int[] GetAllSqauresIdexes()
+    {
+        return line_data_falt;
+    }
 }
