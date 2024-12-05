@@ -9,6 +9,7 @@ using static GameEvents;
 public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPointerUpHandler, IPointerExitHandler
 {
     public GameObject number_text;
+     public List<GameObject> number_notes;
     private int number_ = 0;
     private int correct_number_ = 0;
 
@@ -43,11 +44,66 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
         selected_ = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+       public List<string> GetSquareNotes()
+   {
+       List<string> notes = new List<string>();
+
+       foreach (var number in number_notes)
+       {
+           notes.Add(number.GetComponent<Text>().text);
+       }
+
+       return notes;
+   }
+
+   private void SetClearEmptyNotes()
+   {
+       foreach (var number in number_notes)
+       {
+           if (number.GetComponent<Text>().text == "0")
+               number.GetComponent<Text>().text = " ";
+       }
+   }
+
+   private void SetNoteNumberValue (int value)
+   {
+       foreach (var number in number_notes)
+       {
+           if (value <= 0)
+               number.GetComponent<Text>().text = " ";
+           else
+               number.GetComponent<Text>().text = value.ToString();
+       }
+   }
+
+   private void SetNoteSingleNumberValue(int value, bool force_update = false)
+   {
+       if (note_active == false && force_update == false)
+           return;
+
+       if (value <= 0)
+           number_notes[value -1 ].GetComponent<Text>().text = " ";
+       else
+       {
+           if (number_notes[value - 1].GetComponent<Text>().text == " " || force_update)
+               number_notes[value - 1].GetComponent<Text>().text = value.ToString();
+           else
+               number_notes[value - 1].GetComponent <Text>().text = " ";
+       }
+   }
+
+   public void SetGridNotes(List<int> notes)
+   {
+       foreach (var note in notes)
+       {
+           SetNoteSingleNumberValue (note, true);
+       }
+   }
+
+   public void OnNotesActive(bool active)
+   {
+       note_active = active;
+   }
 
     public void DisplayText()
     {
@@ -80,12 +136,14 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
     {
         GameEvents.OnUpdateSquareNumber += OnSetNumber;
         GameEvents.OnSquareSelected += OnSquareSelected;
+                GameEvents.OnNotesActive += OnNotesActive;
     }
 
     private void OnDisable()
     {
         GameEvents.OnUpdateSquareNumber -= OnSetNumber;
         GameEvents.OnSquareSelected -= OnSquareSelected;
+          GameEvents.OnNotesActive -= OnNotesActive;
     }
 
     public void OnSetNumber(int number)
