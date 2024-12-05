@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SudokuGrid : MonoBehaviour
 {
+
     public int columns = 0;
     public int rows = 0;
     public float square_offset = 0.0f;
@@ -13,7 +14,7 @@ public class SudokuGrid : MonoBehaviour
     public float square_gap = 0.1f;
     public Color line_highlight_color = Color.red;
 
-    private List<GameObject> grid_square_ = new List<GameObject>();
+    private List<GameObject> grid_squares_ = new List<GameObject>();
     private int selected_grid_data = -1;
     void Start()
     {
@@ -29,6 +30,7 @@ public class SudokuGrid : MonoBehaviour
     {
         
     }
+
     private void CreateGrid()
     {
         SpawnGridSquares();
@@ -44,10 +46,10 @@ public class SudokuGrid : MonoBehaviour
         {
             for (int column = 0; column < columns; column++)
             {
-                grid_square_.Add(Instantiate(grid_square) as GameObject);
-                grid_square_[grid_square_.Count - 1].GetComponent<GridSquare>().SetSquareIndex(square_index);
-                grid_square_[grid_square_.Count - 1].transform.parent = this.transform; //instantiate this game object as a child of the object holding this script
-                grid_square_[grid_square_.Count - 1].transform.localScale = new Vector3(square_scale, square_scale, square_scale);
+                grid_squares_.Add(Instantiate(grid_square) as GameObject);
+                grid_squares_[grid_squares_.Count - 1].GetComponent<GridSquare>().SetSquareIndex(square_index);
+                grid_squares_[grid_squares_.Count - 1].transform.parent = this.transform; //instantiate this game object as a child of the object holding this script
+                grid_squares_[grid_squares_.Count - 1].transform.localScale = new Vector3(square_scale, square_scale, square_scale);
 
                 square_index++;
             }
@@ -56,9 +58,11 @@ public class SudokuGrid : MonoBehaviour
 
     private void SetSquaresPosition()
     {
-        var square_rect = grid_square_[0].GetComponent<RectTransform>();
+        var square_rect = grid_squares_[0].GetComponent<RectTransform>();
         Vector2 offset = new Vector2();
+
         Vector2 square_gap_number = new Vector2(0.0f, 0.0f);
+
         bool row_moved = false;
 
         offset.x = square_rect.rect.width * square_rect.transform.localScale.x + square_offset;
@@ -67,12 +71,13 @@ public class SudokuGrid : MonoBehaviour
         int column_number = 0;
         int row_number = 0;
 
-        foreach (GameObject square in grid_square_)
+        foreach (GameObject square in grid_squares_)
         {
             if (column_number +1 > columns)
             {
                 row_number++;
                 column_number = 0;
+
                 square_gap_number.x = 0;
                 row_moved = false;
             }
@@ -90,6 +95,7 @@ public class SudokuGrid : MonoBehaviour
             {
                 row_moved = true;
                 square_gap_number.y++;
+
                 pos_y_offset += square_gap;
             }
 
@@ -97,6 +103,7 @@ public class SudokuGrid : MonoBehaviour
             column_number++;
         }
     }
+
 
     private void SetGridNumber(string level)
     {
@@ -112,8 +119,31 @@ public class SudokuGrid : MonoBehaviour
 
     private void setGridSquareData(SudokuData.SudokuBoardData data)
     {
-        for (int index = 0; index < grid_square_.Count; index++)
+        for (int index = 0; index < grid_squares_.Count; index++)
         {
+            grid_squares_[index].GetComponent<GridSquare>().SetNumber(data.unsolved_data[index]);
+            grid_squares_[index].GetComponent<GridSquare>().SetCorrectNumber(data.solved_data[index]);
+            grid_squares_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnSquareSelected -= OnSquareSelected;
+
+    }
+
+
+    private void SetSquaresColor(int[] data, Color col)
+    {
+        foreach(var index in data)
+        {
+
             grid_square_[index].GetComponent<GridSquare>().SetNumber(data.unsolved_data[index]);
             grid_square_[index].GetComponent<GridSquare>().SetCorrectNumber(data.solved_data[index]);
             grid_square_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
@@ -149,6 +179,7 @@ public class SudokuGrid : MonoBehaviour
         var square = LineIndicator.instance.GetSquare(square_index);
 
         SetSquaresColor(LineIndicator.instance.GetAllSquaresIndexes(), Color.white);
+
 
         SetSquaresColor(horizontal_line, line_highlight_color);
         SetSquaresColor(vertical_line, line_highlight_color);
