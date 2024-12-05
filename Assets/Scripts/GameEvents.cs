@@ -26,7 +26,9 @@ public class GameEvents : MonoBehaviour
     public delegate void WrongNumber();
     public static event WrongNumber OnWrongNumber;
 
-    public static void OnWrongNumberMethod() {
+    public static void OnWrongNumberMethod()
+    {
+
         if (OnWrongNumber != null)
             OnWrongNumber();
     }
@@ -37,9 +39,8 @@ public class GameEvents : MonoBehaviour
     public static void OnGameOverMethod()
     {
         if(OnGameOver != null)
-        
+
             OnGameOver();
-        
     }
 
 }

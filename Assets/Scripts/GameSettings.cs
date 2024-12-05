@@ -30,9 +30,9 @@ public class GameSettings : MonoBehaviour
     private EGameMode _GameMode;
     private bool _Paused = false;
 
-    public void SetPaused(bool paused) { _Paused = paused; }
 
-    public bool GetPaused() { return _Paused; }
+    public void SetPaused(bool paused) { _Paused = paused;}
+    public bool GetPaused() { return _Paused;}
 
 
     void Start()
