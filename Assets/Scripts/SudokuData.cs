@@ -859,7 +859,7 @@ public class SudokuData : MonoBehaviour
 
     public Dictionary<string, List<SudokuBoardData>> sudoku_game = new Dictionary<string, List<SudokuBoardData>>();
 
-    private void Awake()
+    void Awake()
     {
         if (Instance == null)
             Instance = this;

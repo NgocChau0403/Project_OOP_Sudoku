@@ -17,6 +17,7 @@ public class GameSettings : MonoBehaviour
 
     private void Awake()
     {
+        _Paused = false;
         if (Instance == null)
         {
             DontDestroyOnLoad(this);
@@ -27,8 +28,12 @@ public class GameSettings : MonoBehaviour
     }
 
     private EGameMode _GameMode;
+    private bool _Paused = false;
 
-    private void Start()
+    public void SetPaused(bool paused) { _Paused = paused;}
+    public bool GetPaused() { return _Paused;}
+
+    void Start()
     {
         _GameMode = EGameMode.NOT_SET;
     }

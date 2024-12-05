@@ -10,14 +10,29 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
 {
     public GameObject number_text;
     private int number_ = 0;
+    private int correct_number_ = 0;
 
     private bool selected_ = false;
     private int square_index_ = -1;
+    private bool has_default_value_ = false;
+    private bool has_wrong_value_ = false;
+
+
+    public bool HasWrongValue() { return has_wrong_value_; }
+    public void SetHasDefaultValue(bool has_default) { has_default_value_ = has_default; }
+    public bool GetHasDefaultValue() { return has_default_value_; }
+
 
     public bool IsSelected() { return selected_; }
     public void SetSquareIndex(int index)
     {
         square_index_ = index;
+    }
+
+    public void SetCorrectNumber(int number)
+    { 
+        correct_number_ = number;
+        has_wrong_value_ = false;
     }
 
     void Start()
@@ -43,6 +58,8 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
     {
         number_ = number;
         DisplayText();
+
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -70,9 +87,26 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
 
     public void OnSetNumber(int number)
     {
-        if(selected_)
+        if(selected_ && has_default_value_ == false)
         {
             SetNumber(number);
+            if (number_ != correct_number_)
+            {
+                has_wrong_value_ = true;
+                var colors = this.colors;
+                colors.normalColor = Color.red;
+                this.colors = colors;
+                GameEvents.OnWrongNumberMethod();
+            }
+            else
+            {
+                has_wrong_value_ = false;
+                has_default_value_ = true;
+                var colors = this.colors;
+                colors.normalColor = Color.white;
+                this.colors = colors;
+            }
+              
         }
     }
 
@@ -82,6 +116,13 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
         {
             selected_ = false;
         }
+    }
+
+    public void SetSquareColour(Color col)
+    {
+        var colors = this.colors;
+        colors.normalColor = col;
+        this.colors = colors;
     }
 }
 
