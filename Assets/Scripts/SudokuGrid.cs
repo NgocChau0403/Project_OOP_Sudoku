@@ -60,7 +60,9 @@ public class SudokuGrid : MonoBehaviour
     {
         var square_rect = grid_squares_[0].GetComponent<RectTransform>();
         Vector2 offset = new Vector2();
-        Vector2 sqaure_gap_number = new Vector2(0.0f, 0.0f);
+
+        Vector2 square_gap_number = new Vector2(0.0f, 0.0f);
+
         bool row_moved = false;
 
         offset.x = square_rect.rect.width * square_rect.transform.localScale.x + square_offset;
@@ -75,22 +77,25 @@ public class SudokuGrid : MonoBehaviour
             {
                 row_number++;
                 column_number = 0;
-                sqaure_gap_number.x = 0;
+
+                square_gap_number.x = 0;
                 row_moved = false;
             }
 
-            var pos_x_offset = offset.x * column_number + (sqaure_gap_number.x * square_gap);
-            var pos_y_offset = offset.y * row_number + (sqaure_gap_number.y * square_gap);
+            var pos_x_offset = offset.x * column_number + (square_gap_number.x * square_gap);
+            var pos_y_offset = offset.y * row_number + (square_gap_number.y * square_gap);
 
-            if(column_number > 0 && column_number % 3 == 0)
+            if (column_number > 0 && column_number % 3 == 0)
             {
-                sqaure_gap_number.x++;
+                square_gap_number.x++;
                 pos_x_offset += square_gap;
             }
-            if(row_number > 0 && row_number % 3 == 0 && row_moved == false)
+
+            if (row_number > 0 && row_number % 3 == 0 && row_moved == false)
             {
                 row_moved = true;
-                sqaure_gap_number.y++;
+                square_gap_number.y++;
+
                 pos_y_offset += square_gap;
             }
 
@@ -138,21 +143,43 @@ public class SudokuGrid : MonoBehaviour
     {
         foreach(var index in data)
         {
-            var comp = grid_squares_[index].GetComponent<GridSquare>();
-            if(comp.HasWrongValue() == false && comp.IsSelected() == false)
+
+            grid_square_[index].GetComponent<GridSquare>().SetNumber(data.unsolved_data[index]);
+            grid_square_[index].GetComponent<GridSquare>().SetCorrectNumber(data.solved_data[index]);
+            grid_square_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnSquareSelected += OnSquareSelected;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnSquareSelected -= OnSquareSelected;
+    }
+
+    private void SetSquaresColor(int[] data, Color col)
+    {
+        foreach (var index in data)
+        {
+            var comp = grid_square_[index].GetComponent<GridSquare>();
+            if (comp.HasWrongValue() == false && comp.IsSelected() == false)
             {
-                comp.SetSqaureColour(col);
+                comp.SetSquareColour(col);
             }
         }
     }
 
-    public void OnSquareSelected(int sqaure_index)
+    public void OnSquareSelected (int square_index)
     {
-        var horizontal_line = LineIndicator.instance.GetHorizontalLine(sqaure_index);
-        var vertical_line = LineIndicator.instance.GetVerticalLine(sqaure_index);
-        var square = LineIndicator.instance.GetSquare(sqaure_index);
+        var horizontal_line = LineIndicator.instance.GetHorizaontalLine(square_index);
+        var vertical_line = LineIndicator.instance.GetVerticalLine(square_index);
+        var square = LineIndicator.instance.GetSquare(square_index);
 
-        SetSquaresColor(LineIndicator.instance.GetAllSqauresIdexes(), Color.white);
+        SetSquaresColor(LineIndicator.instance.GetAllSquaresIndexes(), Color.white);
+
 
         SetSquaresColor(horizontal_line, line_highlight_color);
         SetSquaresColor(vertical_line, line_highlight_color);
