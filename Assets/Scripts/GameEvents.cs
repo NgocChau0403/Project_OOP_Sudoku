@@ -43,4 +43,31 @@ public class GameEvents : MonoBehaviour
             OnGameOver();
     }
 
+        //******************************************************
+
+    public delegate void NotesActiveMethod(bool active);
+
+    public static event NotesActiveMethod OnNotesActive;
+
+    public static void OnNotesActiveMethod(bool active)
+    {
+        if (OnNotesActive != null)
+            OnNotesActive(active);
+    }
+
+    //******************************************************
+
+    public delegate void ClearNumber();
+
+    public static event ClearNumber OnClearNumber;
+
+    public static void OnClearNumberMethod()
+    {
+        if (OnClearNumber != null) 
+            OnClearNumber();
+    }
 }
+
+
+
+
